@@ -1,0 +1,38 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"
+        integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
+crossorigin=""/>
+<style>
+#map {
+        width: 100%;
+        height: 100vh; //means the height of this element is equal to 100% of the viewport (area that is visible) height// 
+}
+</style>
+</head>
+<body>
+
+<div id="map"></div>
+<script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
+        integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="
+crossorigin=""/>
+</script>
+<script>
+var map = L.map("map").setView([22.596508, 88.417574], 15);
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+attribution:
+'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+var polygon = L.polygon([
+[22.598320, 88.415659],
+[22.595321, 88.413166],
+[22.591505, 88.416447],
+[22.594306, 88.420243],
+[22.596097, 88.422474]
+]).addTo(map);
+var marker = L.marker([22.596508, 88.417574]).addTo(map);
+marker.bindPopup("<b>MAKAUT Salt Lake Campus</b>").openPopup();
+map.fitBounds(bounds);
+</script>
+</body>
+</html>

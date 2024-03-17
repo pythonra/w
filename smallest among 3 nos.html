@@ -1,0 +1,32 @@
+<html>
+<head>
+<script>
+function smallest() {
+    var num1, num2, num3;
+    num1 = Number(document.getElementById("N").value);
+    num2 = Number(document.getElementById("M").value);
+    num3 = Number(document.getElementById("O").value);
+
+    if (num1 < num2 && num1 < num3) {
+        window.alert(num1 + " is the lowest");
+    } else if (num2 < num1 && num2 < num3) {
+        window.alert(num2 + " is the lowest");
+    } else if (num3 < num1 && num3 < num2) {
+        window.alert(num3 + " is the lowest");
+    }
+}
+</script>
+</head>
+<body>
+
+<h1>Calculate smallest among three numbers</h1>
+<hr color="cyan">
+<br>
+<p>Enter number 1: <input id="N"></input></p>
+<p>Enter number 2: <input id="M"></input></p>
+<p>Enter number 3: <input id="O"></input></p>
+<hr color="cyan">
+<center><button onclick="smallest()">OK</button></center>
+
+</body>
+</html>
