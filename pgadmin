@@ -1,0 +1,63 @@
+-- Create a table to store spatial data
+CREATE TABLE indian_cities (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50),
+    geom GEOMETRY(Geometry, 4326)
+);
+
+-- Insert point features (major cities of India)
+INSERT INTO indian_cities (name, geom) VALUES
+('Kolkata', ST_SetSRID(ST_MakePoint(88.36263061240052, 22.574584577588922), 4326)),
+('Vishakapatanam', ST_SetSRID(ST_MakePoint( 83.22893134755391, 17.68954671110944), 4326)),
+('Chandigarh', ST_SetSRID(ST_MakePoint(76.78135580849063,30.731831280283416), 4326)),
+('Delhi', ST_SetSRID(ST_MakePoint(77.21972948674049,28.69024061608192), 4326)),
+('Lucknow', ST_SetSRID(ST_MakePoint(80.94010617551331, 26.84713654653594), 4326));
+
+-- Insert line features
+INSERT INTO indian_cities (name, geom) VALUES
+('Route 1', ST_SetSRID(ST_MakeLine(ST_MakePoint(88.36263061240052, 22.574584577588922), ST_MakePoint(83.22893134755391, 17.68954671110944)), 4326)),
+('Route 2', ST_SetSRID(ST_MakeLine(ST_MakePoint(77.21972948674049,28.69024061608192), ST_MakePoint(80.94010617551331, 26.84713654653594)), 4326));
+
+
+-- Insert a polygon feature (example polygon)
+INSERT INTO indian_cities (name, geom) VALUES
+('Example Polygon', ST_SetSRID(ST_GeomFromText('POLYGON((80.926781229 26.9278415, 85.17642 25.602356, 85.26881 23.298270, 81.63613 21.25289, 80.926781229 26.9278415))'), 4326));
+
+
+--  Add new columns to the existing table
+ALTER TABLE indian_cities
+ADD COLUMN city_name VARCHAR(50),
+ADD COLUMN city_type VARCHAR(10);
+
+
+-- Update the city_name column with the appropriate city names
+UPDATE indian_cities
+SET city_name = CASE
+    WHEN name = 'Kolkata' THEN 'Kolkata'
+    WHEN name = 'Vishakapatanam' THEN 'Vishakapatanam'
+    WHEN name = 'Chandigarh' THEN 'Chandigarh'
+    WHEN name = 'Delhi' THEN 'Delhi'
+    WHEN name = 'Lucknow' THEN 'Lucknow'
+    ELSE city_name
+END
+WHERE name IN ('Kolkata', 'Vishakapatanam', 'Chandigarh', 'Delhi', 'Lucknow');
+
+
+-- Update the city_type column to 'Major' for specified cities
+UPDATE indian_cities
+SET city_type = 'Major'
+WHERE name IN ('Kolkata', 'Delhi');
+
+
+-- Update the city_type column to 'Minor' for the remaining cities
+UPDATE indian_cities
+SET city_type = 'Minor'
+WHERE name IN ('Vishakapatanam', 'Chandigarh', 'Lucknow');
+
+-- Delete the record for "Route 1"
+DELETE FROM indian_cities
+WHERE name = 'Route 1';
+
+-- Delete the record for the polygon named "Example Polygon"
+DELETE FROM indian_cities
+WHERE name = 'Example Polygon';
